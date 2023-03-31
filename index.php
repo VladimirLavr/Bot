@@ -1,18 +1,15 @@
 <?php
-require 'vendor/autoload.php';
 
-use Telegram\Bot\Api;
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
+define("TG_TOKEN", "6280488506:AAFtVTmxR-S021zN2gopg1iHyxHK290TU9g");
+define("TG_USER_ID", "732610083");
 
-$telegram = new Api('6280488506:AAFtVTmxR-S021zN2gopg1iHyxHK290TU9g');
+$textMessage = "Привет";
+$textMessage = urlencode($textMessage);
 
-$result = $telegram->getWebhookUpdates();
+$urlQuery = "https://api.telegram.org/bot" . TG_TOKEN . "/sendMessage?chat_id=" . TG_USER_ID . "&text=" . $textMessage;
 
-$text = $result['message']['text'];
-$chat_id = $result['message']['chat']['id'];
-$name = $result['message']['from']['username'];
-
-if ($text == '/start') {
-    $reply = 'HElLO';
-    $telegram->sendMessage(['chat_id' => $chat_id, 'text' => $reply]);
-}
+$result = file_get_contents($urlQuery);
